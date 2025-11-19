@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Macro Mentor — Diet Recommendation Visualizer</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Local stylesheet -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">MM</div>
+            <div>
+                <h1>Macro Mentor</h1>
+                <p class="lead">Interactive diet recommendation + visual analysis. Enter details and get a servings-based meal plan with charts.</p>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- LEFT: Inputs -->
+            <div class="card">
+                <h2>Your Details</h2>
+
+                <label for="weight">Weight (kg)</label>
+                <input id="weight" type="number" placeholder="e.g. 75" min="20" step="0.1" value="">
+
+                <label for="height">Height (cm)</label>
+                <input id="height" type="number" placeholder="e.g. 175" min="100" step="0.1" value="">
+
+                <label for="age">Age</label>
+                <input id="age" type="number" placeholder="e.g. 25" min="10" value="">
+
+                <div class="row">
+                    <div class="col">
+                        <label for="gender">Gender</label>
+                        <select id="gender" aria-label="Gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="diet">Diet</label>
+                        <select id="diet" aria-label="Diet preference">
+                            <option value="non-vegetarian">Non-Vegetarian</option>
+                            <option value="vegetarian">Vegetarian</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="activity">Activity Level</label>
+                <select id="activity" aria-label="Activity level">
+                    <option>sedentary</option>
+                    <option>lightly active</option>
+                    <option selected>moderately active</option>
+                    <option>very active</option>
+                    <option>athlete</option>
+                </select>
+
+                <label for="goal">Fitness Goal</label>
+                <select id="goal" aria-label="Fitness goal">
+                    <option value="fat loss">Fat Loss</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="muscle gain" selected>Muscle Gain</option>
+                </select>
+
+                <label for="prot_multiplier">Protein target (g per kg)</label>
+                <input id="prot_multiplier" type="number" placeholder="e.g. 1.6" step="0.1" min="0.8" max="3" value="">
+
+                <div class="buttons" style="margin-top:12px">
+                    <button id="runBtn" class="btn">Generate Plan</button>
+                    <button id="exportCSV" class="btn alt">Export CSV</button>
+                </div>
+
+                <p class="muted" style="margin-top:12px">Tip: Fill your details and click <strong>Generate Plan</strong>. If using file://, some browsers may block requests — for best results serve the frontend (e.g. <code>python -m http.server</code>).</p>
+            </div>
+
+            <!-- RIGHT: Output -->
+            <div>
+                <div class="card">
+                    <div class="results-header" style="display:flex;justify-content:space-between;align-items:center">
+                        <h2 style="margin:0">Results</h2>
+                        <div class="muted" id="summarySmall">—</div>
+                    </div>
+
+                    <div class="results" id="targetsRow">
+                        <div class="result-card">
+                            <p class="muted">Calories</p>
+                            <h3 id="calTarget">0 kcal</h3>
+                        </div>
+                        <div class="result-card">
+                            <p class="muted">Protein</p>
+                            <h3 id="protTarget">0 g</h3>
+                        </div>
+                        <div class="result-card">
+                            <p class="muted">Carbs / Fats</p>
+                            <h3 id="carbFat">0 g / 0 g</h3>
+                        </div>
+                    </div>
+
+                    <div class="charts" style="margin-top:18px">
+                        <div class="chart-card"><canvas id="macroBar" height="160"></canvas></div>
+                        <div class="chart-card"><canvas id="macroPie" height="160"></canvas></div>
+                    </div>
+
+                    <h3 style="margin-top:18px">Meal Plan (servings-based)</h3>
+                    <div class="meal-list" id="mealList"></div>
+
+                    <div class="generated-totals" style="margin-top:12px">
+                        <div class="muted">Generated Totals:</div>
+                        <div id="genTotals" class="strong">0 kcal · 0 g protein</div>
+                    </div>
+                </div>
+
+                <div class="card insights-card" style="margin-top:12px">
+                    <h3>Insights</h3>
+                    <ul id="insights" class="muted">
+                        <li>—</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top:18px">
+            <p>Macro Mentor — demo only. Consult a qualified nutritionist for personalized plans.</p>
+        </footer>
+    </div>
+
+    <!-- App script -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
